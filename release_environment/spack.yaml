@@ -1,0 +1,39 @@
+spack:
+  definitions:
+  - pkgs:
+    - libxml2@2.9.8
+  - compilers:
+    - '%clang@6.0.0-1ubuntu2'
+    - '%gcc@7.3.0'
+  - oses:
+    - os=ubuntu18.04
+
+  specs:
+  - matrix:
+    - [$pkgs]
+    - [$compilers]
+    - [$oses]
+  mirrors:
+    cloud_gitlab: https://mirror.spack.io
+
+  gitlab-ci:
+    mappings:
+      - spack-cloud-ubuntu:
+        match:
+          - os=ubuntu18.04
+        runner-attributes:
+          tags:
+            - spack-k8s
+          image: scottwittenburg/spack_builder_ubuntu_18.04
+
+  cdash:
+    build-group: Site Specific Release
+    url: https://cdash.spack.io
+    project: Spack Testing
+    site: Spack AWS Gitlab Instance
+  repos: []
+  upstreams: {}
+  modules:
+    enable: []
+  packages: {}
+  config: {}
