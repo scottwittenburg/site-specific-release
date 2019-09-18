@@ -1,36 +1,31 @@
 spack:
-  definitions:
-  - pkgs:
-    - libxml2@2.9.8
-  - compilers:
-    - '%clang@6.0.0-1ubuntu2'
-    - '%gcc@7.3.0'
-  - oses:
-    - os=ubuntu18.04
-
-  specs:
-  - matrix:
-    - [$pkgs]
-    - [$compilers]
-    - [$oses]
-  mirrors:
-    cloud_gitlab: https://mirror.spack.io
+  specs: ["boost@1.70.0 %gcc@4.8.5 os=centos7"]
+  mirrors: { "mirror": "http://minio:9000" }
 
   gitlab-ci:
     mappings:
-      - spack-cloud-ubuntu:
-        match:
-          - os=ubuntu18.04
+      - match: ["os=centos7"]
         runner-attributes:
-          tags:
-            - spack-k8s
-          image: scottwittenburg/spack_builder_ubuntu_18.04
+          image: { "name": "spack/centos7", "entrypoint": [""] }
+          tags: ["docker"]
 
   cdash:
-    build-group: Site Specific Release
-    url: https://cdash.spack.io
-    project: Spack Testing
-    site: Spack AWS Gitlab Instance
+    build-group: Local Pipeline Testing
+    url: http://cdash
+    project: spack
+    site: Spack Docker-Compose Workflow (beast.kitware.com)
+
+  compilers:
+    - compiler:
+        spec: gcc@4.8.5
+        target: x86_64
+        operating_system: centos7
+        paths: { "cc": "", "cxx": "", "f77": "", "fc": "" }
+        environment: {}
+        extra_rpaths: []
+        flags: {}
+        modules: []
+
   repos: []
   upstreams: {}
   modules:
